@@ -210,3 +210,31 @@ def Mul_And_Add_BackWard_Example(dprice):
     print(dapple, dapple_num, dorange, dorange_num, dtax) # 2.2, 110, 3.3, 165, 650
     return dapple, dapple_num, dorange, dorange_num, dtax
 
+class ReLULayer:
+    def __init__(self):
+       self.mask = None
+
+    def forward(self, x):
+        #if x > 0 : 
+        #    out = x
+        #else:
+        #    out = 0
+        #return out
+        self.mask = (x <= 0)
+        out = x.copy()
+        out[self.mask] = 0
+        return out
+
+    def backward(self, dout):
+        # dout / dx = (dout / dz) * (dz / dx)
+        # dout / dz = d/dz(z) = 1
+        # dz / dx = d/dx (x) = 1
+
+        #if dout > 0:
+        #    dx = 1
+        #else:
+        #    dx = 0
+        #return dx
+        dout[self.mask] = 0
+        dx = dout
+        return dx
